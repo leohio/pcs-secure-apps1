@@ -58,11 +58,7 @@ export default class Aws {
 
     // パスワードから生成したhashとsymbol,nftIdを使ってSaltを作る
     static async genSalt(password, symbol, nftId) {
-        if (password.length < 3) {
-            throw new Error("パスワードが短すぎます。");
-        }
-        const tail3 = password.slice(-3); // 末尾3文字
-        const seedHash = ecc.sha256(tail3);
+        const seedHash = ecc.sha256(password);
 
         const apiUrl = "https://85z0ywf1ol.execute-api.ap-northeast-1.amazonaws.com/secretHashing0";
         const apiObj = {
@@ -79,7 +75,6 @@ export default class Aws {
         };
 
         const salt = await (await fetch(apiUrl, req)).json();
-        console.log(salt)
         return salt.body;
     }
 }

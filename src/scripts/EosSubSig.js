@@ -10,15 +10,12 @@ export default class EosSubSig {
 
     // パスワードとIDをもとに、公開鍵ペアを生成する
     async genKeyPair(nftId, passWord) {
-        alert(nftId)
-        alert(passWord)
 
         const symbol = this.symbol;
-        alert(symbol)
         const salt = await Aws.genSalt(passWord, symbol, Number(nftId)); // サーバーを使ってソルトを生成
-        alert("===")
-        alert(salt)
-        const privateKey = ecc.seedPrivate(`${passWord}+${salt}`); // e.g. 5K2YUVmWfxbmvsNxCsfvArXdGXm7d5DC9pn4yD75k2UaSYgkXTh
+        if(salt.length!==64){return window.alert("通信が上手く出来ていません")}
+
+        const privateKey = ecc.seedPrivate(`${passWord}${salt}`); // e.g. 5K2YUVmWfxbmvsNxCsfvArXdGXm7d5DC9pn4yD75k2UaSYgkXTh
         const publicKey = ecc.privateToPublic(privateKey); // e.g. EOS5cYvx6NBYNdcJUym9WydRRs6329UTzJgzKii8dESmw2ZaA4fEH
         const response = {
             "privateKey": privateKey,
