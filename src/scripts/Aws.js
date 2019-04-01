@@ -39,6 +39,37 @@ export default class Aws {
         alert("紹介コード:"+res.body)
     }
 
+    static async getNoticeLink(symbol,nftId) {
+        if(!symbol || symbol.length<3){return false}
+        const apiUrl = "https://78qy7hxmjd.execute-api.ap-northeast-1.amazonaws.com/proxyStage1/getnoticelink";
+        const req = {
+            method: "POST",
+            mode: "cors",
+            cache: "no-cache",
+            headers: { "Content-Type": "application/json; charset=utf-8" },
+            body: JSON.stringify({"sym":symbol})
+        };
+
+        const res = await (await fetch(apiUrl, req)).json();
+        if(!res.body){return window.alert("通知の取得に失敗しました")}
+        const data = JSON.parse(res.body)
+           
+        let ptag = [];
+        let noticecount =0;
+        data.forEach(function(d){
+          if(d.morethan>nftId && d.lessthan<nftId){return false};
+          if(d.list.indexOf(String(nftId))===-1&&d.list!==","){return false};
+          const datetime = String(d.datetime)
+          ptag.push( "紹介ID:　　"+d.indexhash+"　　|　"+datetime.slice(4,6)+"月"+datetime.slice(6,8) +"日")
+          noticecount += 1;
+        })
+        let title = noticecount+ "件エアドロップの通知があります";
+
+
+        return [title,ptag]
+
+    }
+
     // コミュニティのセキュリティチェック
     static async getRedirectPermission(payload) {
         const apiUrl = "https://78qy7hxmjd.execute-api.ap-northeast-1.amazonaws.com/proxyStage1/proxysecurity";

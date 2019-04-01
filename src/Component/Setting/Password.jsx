@@ -8,16 +8,13 @@ import ecc from 'eosjs-ecc';
 import { connect } from "react-redux";
 import { setAuthority } from "../../redux/actions";
 
+import Airdrop from "./Airdrop"
+
 class Password extends Component {
     constructor(props) {
         super(props);
         
         this.state = {
-            collapse: false,
-            symbol: this.props.symbol,
-            nftId: this.props.id,
-            passWord: "",
-            hash:""
         };
 
         this.toggle = this.toggle.bind(this);
@@ -36,6 +33,10 @@ class Password extends Component {
         });
     }
 
+    refreshtoken(){
+        this.setState({symbol:this.state.symbol,nftId:this.state.nftId});
+    }
+
     // パスワードを変更する
     async refreshKey() {
         const symbol = this.state.symbol;
@@ -43,12 +44,13 @@ class Password extends Component {
 
         // トークンIDを用いてEOSからトークンの所有者及び、subsig公開鍵を取得する
         const nftId = this.state.nftId;
-        const { account, subkey } = await subsig.getEOSAuth(nftId);
-        alert("そのトークンのサブキーは"+subkey);
         const newPassWord = this.state.passWord;
         const indexhash = this.state.hash;
-        const { privateKey, publicKey } = await subsig.genKeyPair(nftId, newPassWord);
-        alert("そのパスワードのサブキーは"+publicKey);
+
+        if(!nftId||!symbol||!newPassWord){return window.alert("入力が足りません")}
+
+        const { account, subkey } = await subsig.getEOSAuth(nftId);
+        const { privateKey, publicKey } = await subsig.genKeyPair(nftId, newPassWord); 
 
         // パスワードから生成したsubkeyが一致した場合、つまり正しいパスワードの場合はパスワードを復元する
         if (publicKey === subkey) {
@@ -59,14 +61,15 @@ class Password extends Component {
             localStorage.setItem(symbol, JSON.stringify(authority));
 
             this.setState({
+                symbol:symbol,
+                nftId:nftId,
                 collapse: false,
-                symbol: "",
-                nftId: "",
                 passWord: ""
             });
 
             this.resetReduxAuthority();
             window.alert("認証に成功しました。");
+            if(!indexhash){return window.alert("上の赤い通知ボタンを押して下さい")}
 
         }else{ return window.alert("認証に失敗しました。");}
 
@@ -113,7 +116,7 @@ class Password extends Component {
     render() {
         return (
             <Col xs="12" className="p-3 mb-3 normal-shadow border-special">
-                <h5>紹介リンクへジャンプ</h5>
+                <h5>紹介リンクへジャンプ/　</h5 ><Airdrop refreshtoken={() => { this.refreshtoken(); }} symbol={this.state.symbol} nftId={this.state.nftId}/>
                 <br/>
 
                 <Button onClick={this.toggle} style={{ marginBottom: '1rem' }} className="my-2">行き先とパスワードを入力します</Button>

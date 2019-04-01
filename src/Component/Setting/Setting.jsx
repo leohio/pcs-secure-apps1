@@ -18,10 +18,9 @@ class Setting extends Component {
                             <h2>{"CONTROL PANEL"}</h2>
                         </div>
 
-                        <Token />
-
                         <Password symbol={symbol} id={nftId} />
                         <Submitlink symbol={symbol} id={nftId} />
+                        <Token />
 
                     </Row>
                 </Container>

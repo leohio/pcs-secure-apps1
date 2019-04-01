@@ -51,10 +51,11 @@ class Token extends Component {
                 <Button onClick={this.search} className="my-2">調べる</Button>
 
                 <Collapse isOpen={this.state.collapse}>
+                    <h3>{this.state.tokenList.length}個</h3>
                     {
                         this.state.tokenList.map((token) => {
                             return (
-                                <p key={token.symbol}>{token.symbol}: {token.id} </p>
+                                <h4 key={token.symbol}>{token.symbol}: {token.id} </h4>
                             )
                         })
                     }

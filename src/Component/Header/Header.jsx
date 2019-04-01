@@ -43,7 +43,7 @@ class Header extends Component {
             return (
                 <Row>
                     <Col xs="12">
-                        <Link to="/" style={{ textDecoration: 'none' }} className="special-color">Ryodan</Link>
+                        <Link to="/" style={{ textDecoration: 'none' }} className="special-color">Linkえあどろっぷ</Link>
                     </Col>
                 </Row>
             );

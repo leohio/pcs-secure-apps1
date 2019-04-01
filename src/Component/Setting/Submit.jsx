@@ -62,7 +62,7 @@ class Submitlink extends Component {
                 <h5>リンクえあどろっぷ</h5>
                 きまった人たちだけが知れるリンクを作ります
                 <br/>
-
+                IPは記録しています。違法行為・迷惑行為はおやめ下さい。
                 <Button onClick={this.toggle} style={{ marginBottom: '1rem' }} className="my-2">どろっぷ</Button>
 
                 <Collapse isOpen={this.state.collapse}>
