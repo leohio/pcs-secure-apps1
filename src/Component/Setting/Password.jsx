@@ -95,13 +95,14 @@ class Password extends Component {
                 console.log(scatter.eosJS)
                 console.log(scatter.eosJS.target)
                 console.log(scatter.eosJS.modules.format.encodeName)
-		const act_bin = bin(scatter.eosJS.modules.format.encodeName("refreshkey2"));
+		const act_bin = bin(scatter.eosJS.modules.format.encodeName("refreshkey2",false));
 		const sym_bin = bin(getSymbolCodeRaw(symbol));
 		const id_bin = bin(new BigInteger(String(nftId)));
 		const sk_bin = publicKeyToBuffer(new_subkey);
 		const ts_bin = bin(getTimestamp());
 		const message_bin = [...act_bin, ...sym_bin, ...id_bin, ...sk_bin, ...ts_bin];
 		const message = Buffer(message_bin);
+                console.log(message)
                 // デジタル署名
                 const new_signature = ecc.sign(message, privateKey);
                 
