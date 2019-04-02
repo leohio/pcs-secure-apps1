@@ -92,30 +92,30 @@ class Password extends Component {
         alert(new_subkey)
         // 旧：アカウント名が代理人のアカウント名と等しい時
         try {
-                console.log(scatter.eosJS)
-                console.log(scatter.eosJS.target)
-                console.log(scatter.eosJS.modules.format.encodeName)
-		const act_bin = bin(scatter.eosJS.modules.format.encodeName("refreshkey2"));
-		const sym_bin = bin(getSymbolCodeRaw(symbol));
-		const id_bin = bin(new BigInteger(String(nftId)));
-		const sk_bin = publicKeyToBuffer(new_subkey);
-		const ts_bin = bin(getTimestamp());
-		const message_bin = [...act_bin, ...sym_bin, ...id_bin, ...sk_bin, ...ts_bin];
-		const message = Buffer(message_bin);
-                // デジタル署名
-                const new_signature = ecc.sign(message, privateKey);
-                
+            console.log(scatter.eosJS)
+            console.log(scatter.eosJS.target)
+            console.log(scatter.eosJS.modules.format.encodeName)
+            const act_bin = bin(scatter.eosJS.modules.format.encodeName("refreshkey2"));
+            const sym_bin = bin(getSymbolCodeRaw(symbol));
+            const id_bin = bin(new BigInteger(String(nftId)));
+            const sk_bin = publicKeyToBuffer(new_subkey);
+            const ts_bin = bin(getTimestamp());
+            const message_bin = [...act_bin, ...sym_bin, ...id_bin, ...sk_bin, ...ts_bin];
+            const message = Buffer(message_bin);
+            // デジタル署名
+            const new_signature = ecc.sign(message, privateKey);
+            
 
-                const apiObj = {
-                    AgentEvent: "REFRESH",
-                    symbolCode: symbol,
-                    tokenId: nftId,
-                    signature: new_signature,
-                    newSubKey: new_subkey,
-                    broadcast:"lambda"
-                };
+            const apiObj = {
+                AgentEvent: "REFRESH",
+                symbolCode: symbol,
+                tokenId: nftId,
+                signature: new_signature,
+                newSubKey: new_subkey,
+                broadcast:"lambda"
+            };
 
-                const signedTx = await PCSServer.requestSignTx(apiObj);
+            const signedTx = await PCSServer.requestSignTx(apiObj);
                 
         } catch (error) {
             console.error(error);
