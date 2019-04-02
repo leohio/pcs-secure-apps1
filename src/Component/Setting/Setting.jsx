@@ -1,9 +1,7 @@
 import React, { Component } from "react";
 import { Container, Row } from "reactstrap";
 import { connect } from "react-redux";
-import Token from "./Token";
 import Password from "./Password";
-import Submitlink from "./Submit";
 
 class Setting extends Component {
     render() {
@@ -19,8 +17,6 @@ class Setting extends Component {
                         </div>
 
                         <Password symbol={symbol} id={nftId} />
-                        <Submitlink symbol={symbol} id={nftId} />
-                        <Token />
 
                     </Row>
                 </Container>
