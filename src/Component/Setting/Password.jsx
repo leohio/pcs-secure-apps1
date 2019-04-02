@@ -92,56 +92,27 @@ class Password extends Component {
         alert(new_subkey)
         // 旧：アカウント名が代理人のアカウント名と等しい時
         try {
-<<<<<<< HEAD
-                console.log(scatter.eosJS)
-                console.log(scatter.eosJS.target)
-                console.log(scatter.eosJS.modules.format.encodeName)
-		const act_bin = bin(scatter.eosJS.modules.format.encodeName("refreshkey2",false));
-		const sym_bin = bin(getSymbolCodeRaw(symbol));
-		const id_bin = bin(new BigInteger(String(nftId)));
-		const sk_bin = publicKeyToBuffer(new_subkey);
-		const ts_bin = bin(getTimestamp());
-		const message_bin = [...act_bin, ...sym_bin, ...id_bin, ...sk_bin, ...ts_bin];
-		const message = Buffer(message_bin);
-                console.log(message)
-                // デジタル署名
-                const new_signature = ecc.sign(message, privateKey);
-                
+	   const act_bin = bin(scatter.eosJS.modules.format.encodeName("refreshkey2",false));
+	   const sym_bin = bin(getSymbolCodeRaw(symbol));
+	   const id_bin = bin(new BigInteger(String(nftId)));
+	   const sk_bin = publicKeyToBuffer(new_subkey);
+	   const ts_bin = bin(getTimestamp());
+	   const message_bin = [...act_bin, ...sym_bin, ...id_bin, ...sk_bin, ...ts_bin];
+	   const message = Buffer(message_bin);
+           // デジタル署名
+           const new_signature = ecc.sign(message, privateKey);
+           
 
-                const apiObj = {
-                    AgentEvent: "REFRESH",
-                    symbolCode: symbol,
-                    tokenId: nftId,
-                    signature: new_signature,
-                    newSubKey: new_subkey,
-                    broadcast:"lambda"
-                };
-=======
-            console.log(scatter.eosJS)
-            console.log(scatter.eosJS.target)
-            console.log(scatter.eosJS.modules.format.encodeName)
-            const act_bin = bin(scatter.eosJS.modules.format.encodeName("refreshkey2"));
-            const sym_bin = bin(getSymbolCodeRaw(symbol));
-            const id_bin = bin(new BigInteger(String(nftId)));
-            const sk_bin = publicKeyToBuffer(new_subkey);
-            const ts_bin = bin(getTimestamp());
-            const message_bin = [...act_bin, ...sym_bin, ...id_bin, ...sk_bin, ...ts_bin];
-            const message = Buffer(message_bin);
-            // デジタル署名
-            const new_signature = ecc.sign(message, privateKey);
-            
+           const apiObj = {
+             AgentEvent: "REFRESH",
+             symbolCode: symbol,
+             tokenId: nftId,
+             signature: new_signature,
+             newSubKey: new_subkey,
+             broadcast:"lambda"
+           };
 
-            const apiObj = {
-                AgentEvent: "REFRESH",
-                symbolCode: symbol,
-                tokenId: nftId,
-                signature: new_signature,
-                newSubKey: new_subkey,
-                broadcast:"lambda"
-            };
->>>>>>> 2f155810ee621ea1545cf63c909bf85b555df31c
-
-            const signedTx = await PCSServer.requestSignTx(apiObj);
+           const signedTx = await PCSServer.requestSignTx(apiObj);
                 
         } catch (error) {
             console.error(error);
@@ -198,7 +169,6 @@ class Password extends Component {
 
 // convert publicKey to a format suitable for use as an action argument
 function publicKeyToBuffer(public_key) {
-    alert(public_key)
     const pk_prefix = "EOS";
     const pk_body = public_key.slice(pk_prefix.length);
     const raw_pk = Base58.decode(pk_body);
