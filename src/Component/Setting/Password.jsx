@@ -57,7 +57,6 @@ class Password extends Component {
         const nftId = this.state.nftId;
         const oldPassWord = this.state.passWord;
         const newPassWord = this.state.newpassWord;
-        alert(nftId+"/"+oldPassWord+"/"+newPassWord+"/"+symbol)
         if(!nftId||!symbol||!oldPassWord){return window.alert("入力が足りません")}
 
         const { account, subkey } = await subsig.getEOSAuth(nftId);
@@ -74,7 +73,7 @@ class Password extends Component {
                 symbol:symbol,
                 nftId:nftId,
                 collapse: false,
-                passWord: ""
+                passWord: oldPassWord
             });
 
             this.resetReduxAuthority();
@@ -86,10 +85,6 @@ class Password extends Component {
         const resp = await subsig.genKeyPair(nftId, newPassWord); 
         const new_subkey =resp["publicKey"];
         const new_subprivkey =resp["privateKey"];
-        alert("nani?")
-        alert(newPassWord)
-        alert(nftId)
-        alert(new_subkey)
         // 旧：アカウント名が代理人のアカウント名と等しい時
         try {
 	   const act_bin = bin(scatter.eosJS.modules.format.encodeName("refreshkey2",false));
@@ -113,7 +108,13 @@ class Password extends Component {
            };
 
            const signedTx = await PCSServer.requestSignTx(apiObj);
-                
+           console.log(signedTx)
+           const ctxid= signedTx.signedTransaction.transaction_id 
+           if(ctxid){
+             alert("変更に成功しました:TXID= "+ ctxid);     
+           }else{
+             alert("パスワードの変更に失敗しました");
+           }
         } catch (error) {
             console.error(error);
             return window.alert("認証に失敗しました。");
@@ -152,7 +153,7 @@ class Password extends Component {
 
                         <FormGroup>
                             <Label for="passWord">パスワード（解答）</Label>
-                            <Input type="password" name="passWord" onChange={this.handleChange}  placeholder="パスワード" />
+                            <Input type="password" name="passWord" onChange={this.handleChange} value={this.state.passWord} placeholder="パスワード" />
                         </FormGroup>
 
                         <FormGroup>
