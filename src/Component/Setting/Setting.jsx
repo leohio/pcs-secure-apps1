@@ -13,7 +13,7 @@ class Setting extends Component {
                 <Container className="py-4">
                     <Row>
                         <div>
-                            <h2>{"CONTROL PANEL"}</h2>
+                            <h2>{"解答フォーム"}</h2>
                         </div>
 
                         <Password symbol={symbol} id={nftId} />

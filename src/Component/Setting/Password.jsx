@@ -139,7 +139,7 @@ class Password extends Component {
         return (
             <Col xs="12" className="p-3 mb-3 normal-shadow border-special">
 
-                <Button onClick={this.toggle} style={{ marginBottom: '1rem' }} className="my-2">行き先とパスワードを入力します</Button>
+                <Button onClick={this.toggle} style={{ marginBottom: '1rem' }} className="my-2">問題番号と解答と新しいパスワードを入力します</Button>
 
                 <Collapse isOpen={this.state.collapse}>
                     <Form>
