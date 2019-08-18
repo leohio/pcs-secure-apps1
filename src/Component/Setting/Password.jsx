@@ -57,7 +57,7 @@ class Password extends Component {
         const nftId = this.state.nftId;
         const oldPassWord = this.state.passWord;
         const newPassWord = this.state.newpassWord;
-        if(!nftId||!symbol||!oldPassWord){return window.alert("入力が足りません")}
+        if(!nftId||!symbol||!oldPassWord){return window.alert("Input not Enough /(jp:入力が足りません)")}
 
         const { account, subkey } = await subsig.getEOSAuth(nftId);
         const { privateKey, publicKey } = await subsig.genKeyPair(nftId, oldPassWord); 
@@ -77,10 +77,10 @@ class Password extends Component {
             });
 
             this.resetReduxAuthority();
-            window.alert("認証に成功しました。正解です！！");
-            if(!newPassWord){return window.alert("新しい自分だけのパスワードをセットして下さい")}
+            window.alert("Authorized!! Correct Answer!! / (jp:成功)");
+            if(!newPassWord){return window.alert("Set your new own password. / (jp:新しい自分だけのパスワードをセットして下さい)")}
 
-        }else{ return window.alert("認証に失敗しました。");}
+        }else{ return window.alert("Authorization Failed /(jp:認証に失敗しました)");}
 
         const resp = await subsig.genKeyPair(nftId, newPassWord); 
         const new_subkey =resp["publicKey"];
@@ -111,13 +111,14 @@ class Password extends Component {
            console.log(signedTx)
            const ctxid= signedTx.signedTransaction.transaction_id 
            if(ctxid){
-             alert("変更に成功しました:TXID= "+ ctxid);     
+             alert("Refresh Pass Completed:TXID= "+ ctxid);
+             window.open("https://www.eosx.io/tx/"+ctxid);     
            }else{
-             alert("パスワードの変更に失敗しました");
+             alert("Refresh Pass Failed/ (jp: パス変更失敗)");
            }
         } catch (error) {
             console.error(error);
-            return window.alert("認証に失敗しました。");
+            return window.alert("Authorization Failed /(jp:認証に失敗しました)");
         }
     }
 
@@ -137,30 +138,30 @@ class Password extends Component {
         return (
             <Col xs="12" className="p-3 mb-3 normal-shadow border-special">
 
-                <Button onClick={this.toggle} style={{ marginBottom: '1rem' }} className="my-2">問題番号と解答と新しいパスワードを入力します</Button>
+                <Button onClick={this.toggle} style={{ marginBottom: '1rem' }} className="my-2">Input the question NUMBER, the ANSWER, and your new PASSWORD</Button>
 
                 <Collapse isOpen={this.state.collapse}>
                     <Form>
                         <FormGroup>
-                            <Label for="symbol">コミュニティ名</Label>
+                            <Label for="symbol">SYMBOL</Label>
                             <Input type="text" name="symbol" onChange={this.handleChange} value={this.state.symbol} />
                         </FormGroup>
 
                         <FormGroup>
-                            <Label for="nftId">トークンID</Label>
-                            <Input type="number" name="nftId" onChange={this.handleChange} value={this.state.nftId} placeholder="トークンID" />
+                            <Label for="nftId">tokenID</Label>
+                            <Input type="number" name="nftId" onChange={this.handleChange} value={this.state.nftId} placeholder="tokenID NUMBER" />
                         </FormGroup>
 
                         <FormGroup>
-                            <Label for="passWord">パスワード（解答）</Label>
-                            <Input type="password" name="passWord" onChange={this.handleChange} value={this.state.passWord} placeholder="パスワード" />
+                            <Label for="passWord">PASSWORD（Answer）</Label>
+                            <Input type="password" name="passWord" onChange={this.handleChange} value={this.state.passWord} placeholder="answer" />
                         </FormGroup>
 
                         <FormGroup>
-                            <Label for="newpassWord">あなたの新しいパスワード（任意）</Label>
-                            <Input type="password" name="newpassWord" onChange={this.handleChange}  placeholder="新しいパスワード" />
+                            <Label for="newpassWord">Your New Password (if PASSWORD is correct)</Label>
+                            <Input type="password" name="newpassWord" onChange={this.handleChange}  placeholder="New Pass (if you omit this, Button below is just to confirm Pass)" />
                         </FormGroup>
-                        <Button onClick={this.refreshKey}>確認/変更</Button>
+                        <Button onClick={this.refreshKey}>Check Password/Refresh Password</Button>
                     </Form>
                 </Collapse>
             </Col>

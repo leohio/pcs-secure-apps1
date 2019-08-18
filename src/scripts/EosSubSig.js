@@ -13,7 +13,7 @@ export default class EosSubSig {
 
         const symbol = this.symbol;
         const salt = await Aws.genSalt(passWord, symbol, Number(nftId)); // サーバーを使ってソルトを生成
-        if(salt.length!==64){return window.alert("通信が上手く出来ていません")}
+        if(salt.length!==64){return window.alert("Web Connection Fail / (jp:ウェブ接続エラー)")}
 
         const privateKey = ecc.seedPrivate(`${passWord}${salt}`); // e.g. 5K2YUVmWfxbmvsNxCsfvArXdGXm7d5DC9pn4yD75k2UaSYgkXTh
         const publicKey = ecc.privateToPublic(privateKey); // e.g. EOS5cYvx6NBYNdcJUym9WydRRs6329UTzJgzKii8dESmw2ZaA4fEH
@@ -33,7 +33,7 @@ export default class EosSubSig {
             return {id, privateKey};
         }
         catch {
-            throw new Error("ローカルのSubsigキーの読み込みに失敗しました。");
+            throw new Error("Loading Error : there's no local subkey. / ローカルのSubsigキーの読み込みに失敗しました。");
         }
     }
 
