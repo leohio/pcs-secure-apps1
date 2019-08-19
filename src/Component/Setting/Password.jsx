@@ -149,19 +149,19 @@ class Password extends Component {
 
                         <FormGroup>
                             <Label for="nftId">tokenID</Label>
-                            <Input type="number" name="nftId" onChange={this.handleChange} value={this.state.nftId} placeholder="tokenID NUMBER" />
+                            <Input type="number" name="nftId" onChange={this.handleChange} value={this.state.nftId} />
                         </FormGroup>
 
                         <FormGroup>
                             <Label for="passWord">PASSWORD（Answer）</Label>
-                            <Input type="password" name="passWord" onChange={this.handleChange} value={this.state.passWord} placeholder="answer" />
+                            <Input type="password" name="passWord" onChange={this.handleChange} value={this.state.passWord} />
                         </FormGroup>
 
                         <FormGroup>
                             <Label for="newpassWord">Your New Password (if PASSWORD is correct)</Label>
-                            <Input type="password" name="newpassWord" onChange={this.handleChange}  placeholder="New Pass (if you omit this, Button below is just to confirm Pass)" />
+                            <Input type="password" name="newpassWord" onChange={this.handleChange}  />
                         </FormGroup>
-                        <Button onClick={this.refreshKey}>Check Password/Refresh Password</Button>
+                        <Button onClick={this.refreshKey}>Check Password / Refresh Password</Button>
                     </Form>
                 </Collapse>
             </Col>
