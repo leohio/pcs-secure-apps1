@@ -8,6 +8,7 @@ import ecc from 'eosjs-ecc';
 import format from 'eosjs';
 import Base58 from "bs58";
 import BigInteger from "bigi";
+import FileDownload from "js-file-download";
 // redux
 import { connect } from "react-redux";
 import { setAuthority } from "../../redux/actions";
@@ -87,35 +88,35 @@ class Password extends Component {
         const new_subprivkey =resp["privateKey"];
         // 旧：アカウント名が代理人のアカウント名と等しい時
         try {
-	   const act_bin = bin(scatter.eosJS.modules.format.encodeName("refreshkey2",false));
-	   const sym_bin = bin(getSymbolCodeRaw(symbol));
-	   const id_bin = bin(new BigInteger(String(nftId)));
-	   const sk_bin = publicKeyToBuffer(new_subkey);
-	   const ts_bin = bin(getTimestamp());
-	   const message_bin = [...act_bin, ...sym_bin, ...id_bin, ...sk_bin, ...ts_bin];
-	   const message = Buffer(message_bin);
-           // デジタル署名
-           const new_signature = ecc.sign(message, privateKey);
-           
+            const act_bin = bin(scatter.eosJS.modules.format.encodeName("refreshkey2",false));
+            const sym_bin = bin(getSymbolCodeRaw(symbol));
+            const id_bin = bin(new BigInteger(String(nftId)));
+            const sk_bin = publicKeyToBuffer(new_subkey);
+            const ts_bin = bin(getTimestamp());
+            const message_bin = [...act_bin, ...sym_bin, ...id_bin, ...sk_bin, ...ts_bin];
+            const message = Buffer(message_bin);
+            // デジタル署名
+            const new_signature = ecc.sign(message, privateKey);
 
-           const apiObj = {
-             AgentEvent: "REFRESH",
-             symbolCode: symbol,
-             tokenId: nftId,
-             signature: new_signature,
-             newSubKey: new_subkey,
-             broadcast:"lambda"
-           };
+            const apiObj = {
+                AgentEvent: "REFRESH",
+                symbolCode: symbol,
+                tokenId: nftId,
+                signature: new_signature,
+                newSubKey: new_subkey,
+                broadcast:"lambda"
+            };
 
-           const signedTx = await PCSServer.requestSignTx(apiObj);
-           console.log(signedTx)
-           const ctxid= signedTx.signedTransaction.transaction_id 
-           if(ctxid){
-             alert("Refresh Pass Completed:TXID= "+ ctxid);
-             window.open("https://www.eosx.io/tx/"+ctxid);     
-           }else{
-             alert("Refresh Pass Failed/ (jp: パス変更失敗)");
-           }
+            const signedTx = await PCSServer.requestSignTx(apiObj);
+            console.log(signedTx)
+            const ctxid= signedTx.signedTransaction.transaction_id 
+            if(ctxid){
+                FileDownload(`password: ${newPassWord}`, `${symbol}#${nftId}_password.txt`);
+                alert("Refresh Pass Completed:TXID= "+ ctxid);
+                window.open("https://www.eosx.io/tx/"+ctxid);
+            }else{
+                alert("Refresh Pass Failed/ (jp: パス変更失敗)");
+            }
         } catch (error) {
             console.error(error);
             return window.alert("Authorization Failed /(jp:認証に失敗しました)");

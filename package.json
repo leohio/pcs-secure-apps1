@@ -8,6 +8,7 @@
     "eosjs": "^16.0.9",
     "eosjs-ecc": "^4.0.4",
     "jquery": "^3.3.1",
+    "js-file-download": "^0.4.8",
     "react": "^16.6.1",
     "react-copy-to-clipboard": "^5.0.1",
     "react-dom": "^16.6.1",
