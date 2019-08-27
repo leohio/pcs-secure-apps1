@@ -111,8 +111,8 @@ class Password extends Component {
             console.log(signedTx)
             const ctxid= signedTx.signedTransaction.transaction_id 
             if(ctxid){
-                FileDownload(`password: ${newPassWord}`, `${symbol}#${nftId}_password.txt`);
-                alert("Refresh Pass Completed:TXID= "+ ctxid);
+                FileDownload(`${new_subprivkey}`, `${symbol}#${nftId}_privatekey.txt`);
+                alert("Refresh Pass Completed:TXID= "+ ctxid+",and the Private Key was DOWNLOADED.Please save it!!");
                 window.open("https://www.eosx.io/tx/"+ctxid);
             }else{
                 alert("Refresh Pass Failed/ (jp: パス変更失敗)");
